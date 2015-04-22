@@ -21,15 +21,17 @@
 
 @implementation CardGameViewController
 
-//- (UISegmentedControl *)gameModeSegControl
-//{
-//    if (!_gameModeSegControl) _gameModeSegControl = [[UISegmentedControl alloc] init];
-//    return _gameModeSegControl;
-//}
+// init
+- (void)initSegControls {
+    if (!_gameModeSegControl) {
+        _gameModeSegControl = [[UISegmentedControl alloc] init];
+    }
+}
+
 - (void)viewDidLoad
 {
     // set gameMode
-    self.gameMode=[self.gameModeSegControl selectedSegmentIndex];
+    // self.gameMode=self.gameModeSegControl.selectedSegmentIndex;
 }
 
 - (CardMatchingGame *)game
@@ -44,12 +46,11 @@
 }
 - (IBAction)touchSegControl:(id)sender
 {
-    self.gameMode = [self.gameModeSegControl selectedSegmentIndex];
+    self.gameMode = self.gameModeSegControl.selectedSegmentIndex;
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender
 {
-    NSLog(@"%ld", self.gameMode);
     [self setEnabledGameModeSegControl:NO];
     NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:chosenButtonIndex gameMode:self.gameMode];
@@ -59,6 +60,7 @@
 
 - (void)updateUI
 {
+    // update buttons
     for (UIButton *cardButton in self.cardButtons) {
         NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
@@ -67,10 +69,13 @@
         cardButton.enabled = !card.isMatched;
         self.scoreLable.text = [NSString stringWithFormat:@"Score: %li", (long)self.game.score];
     }
+    
+    // update SegControls
+    [self.gameModeSegControl setEnabled:NO];
 }
 
-// re-deal
-- (IBAction)touchResartButton:(UIButton *)sender
+// Redeal
+- (IBAction)touchRestartButton:(UIButton *)sender
 {
     _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
     [self setEnabledGameModeSegControl:YES];
@@ -87,7 +92,7 @@
     return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
 }
 
-// Added for enable/disable seg control
+// Added to enable/disable seg control
 - (void)setEnabledGameModeSegControl:(BOOL)value
 {
     for (int i=0; i<[self.gameModeSegControl numberOfSegments]; i++) {

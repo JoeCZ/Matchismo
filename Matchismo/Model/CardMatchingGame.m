@@ -11,7 +11,7 @@
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards;
-@property (nonatomic, strong) NSMutableArray *chosenCards;
+@property (nonatomic, strong) NSMutableSet *chosenCards;
 @end
 
 static const int MISMATCH_PENALTY = 2;
@@ -20,9 +20,9 @@ static const int COST_TO_CHOOSE = 1;
 
 @implementation CardMatchingGame
 
-- (NSMutableArray *)chosenCards
+- (NSMutableSet *)chosenCards
 {
-    if(!_chosenCards) _chosenCards = [[NSMutableArray alloc] init];
+    if(!_chosenCards) _chosenCards = [[NSMutableSet alloc] init];
     return _chosenCards;
 }
 
@@ -94,6 +94,7 @@ static const int COST_TO_CHOOSE = 1;
     if (!card.isMatched) {
         if (card.isChosen) {
             card.chosen=NO;
+            [self.chosenCards removeObject:card];
         } else {
             for (Card *otherCard in self.cards){
                 if(otherCard.isChosen && !otherCard.isMatched){
