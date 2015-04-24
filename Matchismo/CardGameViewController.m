@@ -51,9 +51,10 @@
 
 - (IBAction)touchCardButton:(UIButton *)sender
 {
+    NSLog(@"%ld", self.gameMode);
     [self setEnabledGameModeSegControl:NO];
     NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-    [self.game chooseCardAtIndex:chosenButtonIndex gameMode:self.gameMode];
+    [self.game chooseCardAtIndex:chosenButtonIndex];
     [self updateUI];
 }
 
