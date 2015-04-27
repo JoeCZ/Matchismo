@@ -14,22 +14,30 @@
 {
     int score = 0;
     
+    if ([otherCards count] == 2) {
+        PlayingCard *firstSelectedCard = [otherCards objectAtIndex:0];
+        PlayingCard *secondSelectedCard = [otherCards objectAtIndex:1];
+        if (self.rank == firstSelectedCard.rank && self.rank == secondSelectedCard.rank) {
+            score = 12;
+        }
+        if ([self.suit isEqualToString: firstSelectedCard.suit] && [self.suit isEqualToString:secondSelectedCard.suit]) {
+            score = 3;
+        }
+        if (!score && (self.rank == firstSelectedCard.rank || self.rank == secondSelectedCard.rank || firstSelectedCard.rank == secondSelectedCard.rank)) {
+            score = 4;
+        }
+        if (!score && ([self.suit isEqualToString: firstSelectedCard.suit] || [self.suit isEqualToString:secondSelectedCard.suit] || [firstSelectedCard.suit isEqualToString:secondSelectedCard.suit])) {
+            score = 1;
+        }
+        
+    }
+    
     if ([otherCards count]==1) {
         PlayingCard *otherCard = [otherCards firstObject];
         if (otherCard.rank == self.rank) {
             score = 8;
         } else if ([otherCard.suit isEqualToString:self.suit]) {
             score = 2;
-        }
-    }
-    
-    else if ([otherCards count]==2) {
-        PlayingCard *firstCard = [otherCards firstObject];
-        PlayingCard *secondCard = [otherCards objectAtIndex:1];
-        if (self.rank==firstCard.rank && self.rank==secondCard.rank) {
-            score = 12;
-        } else if ([self.suit isEqualToString:firstCard.suit] && [self.suit isEqualToString:secondCard.suit]) {
-            score = 4;
         }
     }
     

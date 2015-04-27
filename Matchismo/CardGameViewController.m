@@ -46,18 +46,24 @@
 }
 - (IBAction)touchSegControl:(id)sender
 {
-    self.gameMode = self.gameModeSegControl.selectedSegmentIndex;
+    self.game.gameMode = self.gameModeSegControl.selectedSegmentIndex;
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender
 {
     NSLog(@"%ld", self.gameMode);
-    [self setEnabledGameModeSegControl:NO];
+    //[self setEnabledGameModeSegControl:NO];
+    [self.gameModeSegControl setEnabled:NO];
     NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:chosenButtonIndex];
     [self updateUI];
 }
 
+- (IBAction)touchRestartButton:(UIButton *)sender {
+    _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+    [self.gameModeSegControl setEnabled:YES];
+    [self updateUI];
+}
 
 - (void)updateUI
 {
@@ -72,16 +78,9 @@
     }
     
     // update SegControls
-    [self.gameModeSegControl setEnabled:NO];
+    //[self.gameModeSegControl setEnabled:NO];
 }
 
-// Redeal
-- (IBAction)touchRestartButton:(UIButton *)sender
-{
-    _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
-    [self setEnabledGameModeSegControl:YES];
-    [self updateUI];
-}
 
 - (NSString *)titleForCard:(Card *)card
 {
@@ -92,14 +91,5 @@
 {
     return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
 }
-
-// Added to enable/disable seg control
-- (void)setEnabledGameModeSegControl:(BOOL)value
-{
-    for (int i=0; i<[self.gameModeSegControl numberOfSegments]; i++) {
-        [self.gameModeSegControl setEnabled:value forSegmentAtIndex:i];
-    }
-}
-
 
 @end
