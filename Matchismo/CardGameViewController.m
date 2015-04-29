@@ -14,6 +14,7 @@
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLable;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (strong, nonatomic) IBOutlet UIButton *restartButton;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *gameModeSegControl;
 @property (nonatomic) NSInteger gameMode;
@@ -30,8 +31,7 @@
 
 - (void)viewDidLoad
 {
-    // set gameMode
-    // self.gameMode=self.gameModeSegControl.selectedSegmentIndex;
+    
 }
 
 - (CardMatchingGame *)game

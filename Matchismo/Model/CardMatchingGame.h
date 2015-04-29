@@ -19,5 +19,6 @@
 
 @property (nonatomic, readonly) NSInteger score;
 @property (nonatomic, readwrite) NSInteger gameMode;
+@property (nonatomic, readonly) NSMutableString *description;
 
 @end
